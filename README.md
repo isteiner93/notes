@@ -8,4 +8,5 @@ To run in docker
 
 
 docker build -t notesapp .
+
 docker run -p 5001:5001 notesapp
