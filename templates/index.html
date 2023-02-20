@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notes App</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Ivo's Task List</h1>
+
+    <button id="dark-mode-toggle">Dark mode Switch</button>
+
+    <form method="post" action="{{ url_for('add_note') }}">
+        <textarea name="text" placeholder="Enter a new note..."></textarea>
+        <button type="submit">Add Note</button>
+    </form>
+
+    <ul>
+        {% for note in notes %}
+            <li>
+                <div class="note">{{ note.text }}</div>
+                <a href="{{ url_for('delete_note', id=note.id) }}" class="delete-button">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <script type="text/javascript">
+        function setDarkMode(isDarkMode) {
+            const body = document.body;
+            if (isDarkMode) {
+                body.classList.add('dark-mode');
+                localStorage.setItem('dark-mode', 'on');
+            } else {
+                body.classList.remove('dark-mode');
+                localStorage.removeItem('dark-mode');
+            }
+        }
+
+        const darkModeToggle = document.querySelector('#dark-mode-toggle');
+        darkModeToggle.addEventListener('click', () => {
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            setDarkMode(!isDarkMode);
+        });
+
+        const storedDarkMode = localStorage.getItem('dark-mode');
+        if (storedDarkMode === 'on') {
+            setDarkMode(true);
+        }
+    </script>
+</body>
+</html>
